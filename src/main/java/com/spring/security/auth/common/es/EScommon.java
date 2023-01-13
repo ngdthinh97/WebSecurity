@@ -12,7 +12,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 
 public class EScommon {
 
-    public static Query findByKeyRequestBuilder(String key, String nameValue , Object objectData) {
+    public static Query findAuthorByKeyRequestBuilder(String key, String nameValue , Object objectData) {
 
         if (!(key.equals("authors.name") || key.equals("authors.id"))) {
             throw new RuntimeException(key);
@@ -26,11 +26,23 @@ public class EScommon {
                         .must(nestedQuery("authors", boolQuery()
                                 .should(matchPhraseQuery(key, nameValue)), ScoreMode.None)));
 
-//        Query searchQuery = new NativeSearchQueryBuilder()
-//                .withQuery(allQueries)
-//                .build();
-
         // Ctrl + alt  + v -> auto generate data type
+        NativeSearchQuery build = new NativeSearchQueryBuilder()
+                .withQuery(allQueries)
+                .build();
+
+        return build;
+    }
+
+    public static Query findArticleByIdRequestBuilder(String id) {
+
+        String articleTitle = authorModel.getTitle();
+        QueryBuilder allQueries = new BoolQueryBuilder()
+                .must(boolQuery()
+                        .should(matchPhraseQuery("title", articleTitle))
+                        .must(nestedQuery("authors", boolQuery()
+                                .should(matchPhraseQuery(key, nameValue)), ScoreMode.None)));
+
         NativeSearchQuery build = new NativeSearchQueryBuilder()
                 .withQuery(allQueries)
                 .build();

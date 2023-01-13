@@ -63,6 +63,7 @@ public class EsApiImpl implements EsApi {
         return null;
     }
 
+    @Transactional
     @Override
     public Author createAuthor(AuthorModel authorModel) {
 
@@ -76,7 +77,12 @@ public class EsApiImpl implements EsApi {
             log.debug("---------- Save Author {}", saved);
             return saved.get();
         }
-
         return null;
+    }
+
+    @Transactional
+    @Override
+    public void deleteArticleById(String id) {
+        articleRepository.deleteById(id);
     }
 }

@@ -19,7 +19,10 @@ public interface ArticleService {
 
     Article updateAuthorByName(AuthorModel authorModel, String name);
 
+    void deleteArticleById(String id);
 
     //Author-------------------------------------------------
     Author createAuthor(AuthorModel authorModel);
+
+
 }

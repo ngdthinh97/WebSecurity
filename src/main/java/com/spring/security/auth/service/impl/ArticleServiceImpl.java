@@ -101,7 +101,7 @@ public class ArticleServiceImpl implements ArticleService {
     public Article updateAuthorById(AuthorModel authorModel, String authorId) {
 
         log.debug("--------- Update Article by Id ---------");
-        Query byKeyRequestBuilder = EScommon.findByKeyRequestBuilder("authors.id", authorId, authorModel);
+        Query byKeyRequestBuilder = EScommon.findAuthorByKeyRequestBuilder("authors.id", authorId, authorModel);
         SearchHits<Article> searchHits = (SearchHits<Article>) esApi.searchByKey(byKeyRequestBuilder, Article.class);
         Article saved = esApi.save(searchHits.getSearchHit(0).getContent(), authorModel);
         log.debug("--------- Update Article Success ---------");
@@ -112,7 +112,7 @@ public class ArticleServiceImpl implements ArticleService {
     public Article updateAuthorByName(AuthorModel authorModel, String name) {
 
         log.debug("--------- Update Article by name ---------");
-        Query byKeyRequestBuilder = EScommon.findByKeyRequestBuilder("authors.name", name, authorModel);
+        Query byKeyRequestBuilder = EScommon.findAuthorByKeyRequestBuilder("authors.name", name, authorModel);
         SearchHits<Article> searchHits = (SearchHits<Article>) esApi.searchByKey(byKeyRequestBuilder, Article.class);
         Article saved = esApi.save(searchHits.getSearchHit(0).getContent(), authorModel);
         log.debug("--------- Update Article Success ---------");
@@ -125,5 +125,14 @@ public class ArticleServiceImpl implements ArticleService {
         Author created = esApi.createAuthor(authorModel);
         log.debug("--------- Create Article Success ---------");
         return created;
+    }
+
+    @Override
+    public void deleteArticleById(String id) {
+        log.debug("--------- Delete Article by id ---------");
+        Query byKeyRequestBuilder = EScommon.findAuthorByKeyRequestBuilder("id", id, authorModel);
+        SearchHits<Article> searchHits = (SearchHits<Article>) esApi.searchByKey(byKeyRequestBuilder, Article.class);
+
+        esApi.deleteArticleById(id);
     }
 }

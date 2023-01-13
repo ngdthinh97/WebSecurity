@@ -55,4 +55,10 @@ public class AuthorController {
         return new ResponseEntity<>(authorService.createAuthor(authorModel), HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete/{id}/article")
+    public ResponseEntity<Void> deleteArticle(@PathVariable String id) {
+
+        return new ResponseEntity<>(authorService.deleteArticleById(id), HttpStatus.OK);
+    }
+
 }
