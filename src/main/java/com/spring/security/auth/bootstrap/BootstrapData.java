@@ -29,10 +29,6 @@ public class BootstrapData implements ApplicationListener<ApplicationReadyEvent>
     private LocationRepository locationRepository;
     private CustomerRepository customerRepository;
     private OrderRepository orderRepository;
-
-    private ElasticsearchOperations elasticsearchClient;
-
-//    @Autowired
     private ArticleRepository articleRepository;
 
     final ObjectMapper ob = new ObjectMapper();
@@ -45,9 +41,6 @@ public class BootstrapData implements ApplicationListener<ApplicationReadyEvent>
         System.out.println("------------------- Bootstrap Data Elastic -------------------");
 
 //        elasticsearchClient.indexOps(Article.class).create();
-        Article article = new Article("Spring Data Elasticsearch");
-        article.setAuthors(asList(new Author("Thinh"), new Author("Rap")));
-//        articleRepository.save(article);
         Iterable<Article> lst =   articleRepository.findAll();
         lst.forEach(s -> {
             System.out.println(s.toString());

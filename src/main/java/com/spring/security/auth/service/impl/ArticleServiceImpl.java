@@ -7,7 +7,7 @@ import com.spring.security.auth.entity.Author;
 import com.spring.security.auth.model.AuthorModel;
 import com.spring.security.auth.model.Paging;
 import com.spring.security.auth.repository.es.ArticleRepository;
-import com.spring.security.auth.service.AuthorService;
+import com.spring.security.auth.service.ArticleService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -23,14 +23,14 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
+
 @Slf4j
 @Service
-public class AuthorServiceImpl implements AuthorService {
+public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private ArticleRepository articleRepository;
@@ -41,11 +41,10 @@ public class AuthorServiceImpl implements AuthorService {
     @Autowired
     private ElasticsearchOperations elasticsearchTemplate;
 
-    private final static Map<String, String> ES_KEY = new HashMap<>();
-
+    private final static Map<String, String> ES_ARTICLE_AUTHOR_KEY = new HashMap<>();
     static {
-        ES_KEY.put("author_name", "authors.name");
-        ES_KEY.put("author_id", "authors.id");
+        ES_ARTICLE_AUTHOR_KEY.put("author_name", "authors.name");
+        ES_ARTICLE_AUTHOR_KEY.put("author_id", "authors.id");
     }
 
     @Override
@@ -58,6 +57,16 @@ public class AuthorServiceImpl implements AuthorService {
 //        PageRequest.of(page.getPageNum(), page.getPageSize(), Sort.Direction.ASC);
         Page<Article> articles = articleRepository.findByAuthorsNameUsingCustomQuery(authorModel.getName(), pageable);
 
+        return articles;
+    }
+
+    @Override
+    public Page<Article> findAll(Paging paging) {
+
+        log.debug("--------- Find All Article ---------");
+        Paging page = paging;
+        Pageable pageable = PageRequest.of(page.getPageNum(), page.getPageSize());
+        Page<Article> articles = articleRepository.findAll(pageable);
         return articles;
     }
 
@@ -111,9 +120,9 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Article createAuthor(AuthorModel authorModel) {
+    public Author createAuthor(AuthorModel authorModel) {
         log.debug("--------- Create Article by name ---------");
-        Article created = esApi.saveAsCustomQuery(authorModel);
+        Author created = esApi.createAuthor(authorModel);
         log.debug("--------- Create Article Success ---------");
         return created;
     }

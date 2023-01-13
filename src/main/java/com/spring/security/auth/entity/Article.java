@@ -1,23 +1,27 @@
 package com.spring.security.auth.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.List;
+import java.util.UUID;
 
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Document(indexName = "blog")
 public class Article {
 
     @Id
-    private String id;
+    @Builder.Default
+    private String id = UUID.randomUUID().toString();
 
     private String title;
 
@@ -35,5 +39,9 @@ public class Article {
                 ", title='" + title + '\'' +
                 ", authors=" + authors +
                 '}';
+    }
+
+    public void setId() {
+        this.id = UUID.randomUUID().toString();
     }
 }
