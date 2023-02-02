@@ -43,13 +43,8 @@ public class EsApiImpl implements EsApi {
 
     @Transactional
     @Override
-    public Article save(Article article, AuthorModel authorModel) {
+    public Article save(Article article, Author author) {
 
-        Author author = Author.builder()
-                .id(authorModel.getId())
-                .name(authorModel.getName())
-                .address(authorModel.getAddress())
-                .build();
         article.setAuthors(Arrays.asList(author));
 
         // save by jpa

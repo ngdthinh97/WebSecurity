@@ -1,12 +1,16 @@
 package com.spring.security.auth.entity;
 
-import lombok.*;
+import java.util.UUID;
+
+import javax.persistence.Id;
+
 import org.springframework.data.elasticsearch.annotations.Document;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Builder
 @Getter

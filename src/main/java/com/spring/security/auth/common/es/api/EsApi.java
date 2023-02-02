@@ -12,7 +12,7 @@ public interface EsApi {
 
     SearchHits<?> searchAll(Query query, Class<?> classType);
 
-    Article save(Article article, AuthorModel authorModel);
+    Article save(Article article,  Author authorModel);
 
     Author createAuthor(AuthorModel authorModel);
 
