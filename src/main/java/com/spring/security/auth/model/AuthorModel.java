@@ -15,4 +15,6 @@ public class AuthorModel {
     private String title;
     private String address;
     private Paging paging;
+    private int age;
+    private String alphaName;
 }

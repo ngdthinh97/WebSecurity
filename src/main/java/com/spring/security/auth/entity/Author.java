@@ -27,6 +27,10 @@ public class Author {
 
     private String address;
 
+    private int age;
+
+    private String alphaName;
+
     @Override
     public String toString() {
         return "Author{" +

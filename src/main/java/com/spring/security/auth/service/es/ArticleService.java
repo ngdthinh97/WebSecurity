@@ -1,4 +1,4 @@
-package com.spring.security.auth.service;
+package com.spring.security.auth.service.es;
 
 import com.spring.security.auth.entity.Article;
 import com.spring.security.auth.entity.Author;
@@ -7,11 +7,11 @@ import com.spring.security.auth.model.AuthorModel;
 import com.spring.security.auth.model.Paging;
 import org.springframework.data.domain.Page;
 import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.http.ResponseEntity;
 
 public interface ArticleService {
 
     //Article-------------------------------------------------
-    Page<Article> findByAuthorsName(AuthorModel authorModel);
 
     Page<Article> findAll(Paging paging);
 
@@ -25,10 +25,5 @@ public interface ArticleService {
 
     void deleteArticleById(String id);
 
-	// Author-------------------------------------------------
-
-    SearchHits<Author> findByAuthorName(AuthorModel authorModel);
-
-	Author createAuthor(AuthorModel authorModel);
-
+    ResponseEntity<String> test();
 }

@@ -18,8 +18,6 @@ import org.springframework.util.MultiValueMap;
 @EnableElasticsearchRepositories(basePackages = "com.spring.security.auth.repository.es")
 @ComponentScan(basePackages = {"com.spring.security.auth"})
 public class ElasticSearchConfig {
-//public class ElasticSearchConfig extends
-//        AbstractElasticsearchConfiguration {
 
     @Value("${spring.elasticsearch.server}")
     private String host;

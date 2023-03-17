@@ -1,4 +1,4 @@
-package com.spring.security.auth.service.impl;
+package com.spring.security.auth.service.es.impl;
 
 import com.spring.security.auth.common.es.EScommon;
 import com.spring.security.auth.common.es.api.EsApi;
@@ -8,7 +8,7 @@ import com.spring.security.auth.model.ArticleModel;
 import com.spring.security.auth.model.AuthorModel;
 import com.spring.security.auth.model.Paging;
 import com.spring.security.auth.repository.es.ArticleRepository;
-import com.spring.security.auth.service.ArticleService;
+import com.spring.security.auth.service.es.ArticleService;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +24,7 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.Query;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -49,18 +50,6 @@ public class ArticleServiceImpl implements ArticleService {
 	static {
 		ES_ARTICLE_AUTHOR_KEY.put("author_name", "authors.name");
 		ES_ARTICLE_AUTHOR_KEY.put("author_id", "authors.id");
-	}
-
-	@Override
-	public Page<Article> findByAuthorsName(AuthorModel authorModel) {
-
-		Paging page = authorModel.getPaging();
-		Pageable pageable = PageRequest.of(page.getPageNum(), page.getPageSize());
-
-//        PageRequest.of(page.getPageNum(), page.getPageSize(), Sort.Direction.ASC);
-		Page<Article> articles = articleRepository.findByAuthorsNameUsingCustomQuery(authorModel.getName(), pageable);
-
-		return articles;
 	}
 
 	@Override
@@ -130,14 +119,6 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public Author createAuthor(AuthorModel authorModel) {
-		log.debug("--------- Create Article by name ---------");
-		Author created = esApi.createAuthor(authorModel);
-		log.debug("--------- Create Article Success ---------");
-		return created;
-	}
-
-	@Override
 	public void deleteArticleById(String id) {
 		log.debug("--------- Delete Article by id ---------");
 		Query byKeyRequestBuilder = EScommon.findArticleByIdRequestBuilder(id);
@@ -146,20 +127,9 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public SearchHits<Author> findByAuthorName(AuthorModel authorModel) {
-
-		Query byKeyRequestBuilder = EScommon.findAuthorByName(authorModel.getName());
-
-		@SuppressWarnings("unchecked")
-		SearchHits<Author> searchHits = (SearchHits<Author>) esApi.searchByKey(byKeyRequestBuilder, Author.class);
-		return searchHits;
-	}
-
-	@Override
 	public Article createArticle(ArticleModel articleModel) {
 
 		log.debug("--------- Create Article ---------");
-
 		ArticleModel.Author author = articleModel.getAuthor();
 		Author authorIndex = new Author();
 		if (StringUtils.isNotEmpty(author.getName())) {
@@ -174,5 +144,10 @@ public class ArticleServiceImpl implements ArticleService {
 		Article saved = esApi.save(artile, authorIndex);
 
 		return saved;
+	}
+
+	@Override
+	public ResponseEntity<String> test(){
+		return ResponseEntity.badRequest().body("Either 'id' or 'name' must be set");
 	}
 }

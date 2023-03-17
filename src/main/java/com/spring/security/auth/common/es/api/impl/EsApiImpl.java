@@ -60,11 +60,19 @@ public class EsApiImpl implements EsApi {
 
     @Transactional
     @Override
+    public void deleteArticleById(String id) {
+        articleRepository.deleteById(id);
+    }
+
+    @Transactional
+    @Override
     public Author createAuthor(AuthorModel authorModel) {
 
         Author author = Author.builder()
                 .name(authorModel.getName())
                 .address(authorModel.getAddress())
+                .alphaName(authorModel.getAlphaName())
+                .age(authorModel.getAge())
                 .build();
 
         Optional<Author> saved = Optional.of(authorRepository.save(author));
@@ -75,9 +83,8 @@ public class EsApiImpl implements EsApi {
         return null;
     }
 
-    @Transactional
     @Override
-    public void deleteArticleById(String id) {
-        articleRepository.deleteById(id);
+    public Author saveAuthor(Author author) {
+        return authorRepository.save(author);
     }
 }

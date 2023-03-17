@@ -17,4 +17,6 @@ public interface EsApi {
     Author createAuthor(AuthorModel authorModel);
 
     void deleteArticleById(String id);
+
+    Author saveAuthor(Author author);
 }
