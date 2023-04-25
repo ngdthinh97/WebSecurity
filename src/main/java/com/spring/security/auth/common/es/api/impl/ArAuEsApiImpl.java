@@ -1,8 +1,8 @@
 package com.spring.security.auth.common.es.api.impl;
 
-import com.spring.security.auth.common.es.api.EsApi;
-import com.spring.security.auth.entity.Article;
-import com.spring.security.auth.entity.Author;
+import com.spring.security.auth.common.es.api.ArAuEsApi;
+import com.spring.security.auth.entity.Es.Article;
+import com.spring.security.auth.entity.Es.Author;
 import com.spring.security.auth.model.AuthorModel;
 import com.spring.security.auth.repository.es.ArticleRepository;
 import com.spring.security.auth.repository.es.AuthorRepository;
@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class EsApiImpl implements EsApi {
+public class ArAuEsApiImpl implements ArAuEsApi {
 
     @Autowired
     private ElasticsearchOperations elasticsearchTemplate;
@@ -38,6 +38,11 @@ public class EsApiImpl implements EsApi {
 
     @Override
     public SearchHits<?> searchAll(Query query, Class<?> classType) {
+        return elasticsearchTemplate.search(query, classType, IndexCoordinates.of("blog"));
+    }
+
+    @Override
+    public SearchHits<?> matchAll(Query query, Class<?> classType) {
         return elasticsearchTemplate.search(query, classType, IndexCoordinates.of("blog"));
     }
 

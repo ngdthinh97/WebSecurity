@@ -1,6 +1,6 @@
 package com.spring.security.auth.repository.es;
 
-import com.spring.security.auth.entity.Author;
+import com.spring.security.auth.entity.Es.Author;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;

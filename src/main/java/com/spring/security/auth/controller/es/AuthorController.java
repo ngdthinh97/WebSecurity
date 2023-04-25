@@ -1,11 +1,7 @@
 package com.spring.security.auth.controller.es;
 
-import com.spring.security.auth.entity.Article;
-import com.spring.security.auth.entity.Author;
-import com.spring.security.auth.model.ArticleModel;
+import com.spring.security.auth.entity.Es.Author;
 import com.spring.security.auth.model.AuthorModel;
-import com.spring.security.auth.model.Paging;
-import com.spring.security.auth.service.es.ArticleService;
 import com.spring.security.auth.service.es.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
