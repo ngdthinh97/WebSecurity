@@ -2,23 +2,22 @@ package com.spring.security.auth.bootstrap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.security.auth.entity.*;
+import com.spring.security.auth.entity.Es.Article;
+import com.spring.security.auth.entity.redis.Student;
 import com.spring.security.auth.repository.*;
 import com.spring.security.auth.repository.es.ArticleRepository;
+import com.spring.security.auth.repository.redis.StudentRepository;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import redis.clients.jedis.JedisCluster;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
-import static java.util.Arrays.asList;
+import java.util.*;
 
 @Component
 @AllArgsConstructor
@@ -30,6 +29,7 @@ public class BootstrapData implements ApplicationListener<ApplicationReadyEvent>
     private CustomerRepository customerRepository;
     private OrderRepository orderRepository;
     private ArticleRepository articleRepository;
+    private StudentRepository studentRepository;
 
     final ObjectMapper ob = new ObjectMapper();
 
@@ -37,6 +37,15 @@ public class BootstrapData implements ApplicationListener<ApplicationReadyEvent>
     @Transactional
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
+
+        System.out.println("------------------- Bootstrap Data Redis -------------------");
+        System.out.println("------------------- Bootstrap Data Redis Turn on docker redis server -------------------");
+//        Student student = new Student(
+//                "Eng2015001", "John Doe", Student.Gender.MALE, 1);
+//        studentRepository.save(student);
+//        Student retrievedStudent =
+//                studentRepository.findById("Eng2015001").get();
+//        System.out.println(retrievedStudent.toString());
 
         System.out.println("------------------- Bootstrap Data Elastic -------------------");
 

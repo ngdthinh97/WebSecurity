@@ -1,4 +1,4 @@
-package com.spring.security.auth.entity;
+package com.spring.security.auth.entity.Es;
 
 import java.util.UUID;
 

@@ -1,7 +1,6 @@
 package com.spring.security.auth.service.es;
 
-import com.spring.security.auth.entity.Article;
-import com.spring.security.auth.entity.Author;
+import com.spring.security.auth.entity.Es.Author;
 import com.spring.security.auth.model.AuthorModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.elasticsearch.core.SearchHits;

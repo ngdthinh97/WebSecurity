@@ -1,8 +1,8 @@
 package com.spring.security.auth.service.es.impl;
 
 import com.spring.security.auth.common.es.EScommon;
-import com.spring.security.auth.common.es.api.EsApi;
-import com.spring.security.auth.entity.Author;
+import com.spring.security.auth.common.es.api.ArAuEsApi;
+import com.spring.security.auth.entity.Es.Author;
 import com.spring.security.auth.model.AuthorModel;
 import com.spring.security.auth.model.Paging;
 import com.spring.security.auth.repository.es.AuthorRepository;
@@ -10,6 +10,7 @@ import com.spring.security.auth.service.es.AuthorService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +25,8 @@ import org.springframework.stereotype.Service;
 public class AuthorServiceImpl implements AuthorService {
 
     @Autowired
-    private EsApi esApi;
+    @Qualifier("arAuEsApiImpl")
+    private ArAuEsApi arAuEsApi;
 
     @Autowired
     private ElasticsearchOperations elasticsearchTemplate;
@@ -37,7 +39,7 @@ public class AuthorServiceImpl implements AuthorService {
 
         Query byKeyRequestBuilder = EScommon.findAuthorByName(authorModel.getName());
         @SuppressWarnings("unchecked")
-        SearchHits<Author> searchHits = (SearchHits<Author>) esApi.searchByKey(byKeyRequestBuilder, Author.class);
+        SearchHits<Author> searchHits = (SearchHits<Author>) arAuEsApi.searchByKey(byKeyRequestBuilder, Author.class);
         return searchHits;
     }
 
@@ -54,7 +56,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Author createAuthor(AuthorModel authorModel) {
         log.debug("--------- Create Article by name ---------");
-        Author created = esApi.createAuthor(authorModel);
+        Author created = arAuEsApi.createAuthor(authorModel);
         log.debug("--------- Create Article Success ---------");
         return created;
     }
@@ -63,13 +65,13 @@ public class AuthorServiceImpl implements AuthorService {
     public Author updateAuthor(String id, AuthorModel authorModel) {
 //        Query byKeyRequestBuilder2 = EScommon.findAuthorByName("thinh2");
         Query byKeyRequestBuilder = EScommon.findAuthorById(id);
-        SearchHits<Author> searchHits = (SearchHits<Author>) esApi.searchByKey(byKeyRequestBuilder, Author.class);
+        SearchHits<Author> searchHits = (SearchHits<Author>) arAuEsApi.searchByKey(byKeyRequestBuilder, Author.class);
         SearchHit<Author> first = searchHits.stream().findFirst().orElseGet(null);
         if (ObjectUtils.isNotEmpty(first)) {
             Author author = first.getContent();
             author.setName(authorModel.getName());
             author.setAddress(authorModel.getAddress());
-            return esApi.saveAuthor(author);
+            return arAuEsApi.saveAuthor(author);
         } else {
             return null;
         }

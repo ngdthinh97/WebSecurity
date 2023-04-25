@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ArticleModel {
+public class ArticleModel extends Paging {
 
 	private String title;
 
